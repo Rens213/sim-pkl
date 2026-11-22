@@ -1,0 +1,84 @@
+@import 'tailwindcss';
+
+@source '../views/**/*.blade.php';
+@source '../js/**/*.js';
+
+@theme {
+    --font-sans: 'Hanken Grotesk', ui-sans-serif, system-ui, 'Segoe UI', Arial, sans-serif;
+
+    --color-paper: #f5f4ee;
+    --color-ink: #14201d;
+    --color-muted: #55645f;
+    --color-line: #d9d6c8;
+    --color-brand: #0a6a55;
+    --color-brand-deep: #074d3e;
+    --color-brand-soft: #e1f0ea;
+    --color-warn: #8a5a0a;
+    --color-warn-soft: #fbf0d6;
+    --color-bad: #a4281c;
+    --color-bad-soft: #fbe5e1;
+}
+
+@layer base {
+    html { scroll-behavior: smooth; }
+    h1, h2, h3 { font-weight: 700; letter-spacing: -0.015em; line-height: 1.15; }
+    h1 { font-size: clamp(1.9rem, 4.2vw, 3rem); }
+    h2 { font-size: clamp(1.35rem, 2.4vw, 1.75rem); }
+    h3 { font-size: 1.05rem; }
+    :focus-visible { outline: 2px solid var(--color-brand); outline-offset: 2px; }
+}
+
+@layer components {
+    /* Satu garis tepi untuk header, konten, dan footer */
+    .wrap { @apply mx-auto w-full max-w-6xl px-5; }
+
+    .card { @apply rounded-lg border border-line bg-white p-5; }
+    .card-link { transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease; }
+    .card-link:hover { transform: translateY(-2px); border-color: var(--color-brand); box-shadow: 0 8px 20px -12px rgb(20 32 29 / .4); }
+
+    /* Satu pasang tombol: utama (isi) dan sekunder (garis) */
+    .btn { @apply inline-flex min-h-11 cursor-pointer select-none items-center justify-center gap-2 rounded-lg px-4 text-sm font-semibold no-underline; transition: background-color .15s ease, border-color .15s ease, color .15s ease, transform .1s ease; }
+    .btn:active { transform: translateY(1px); }
+    .btn-primary { @apply bg-brand text-white; }
+    .btn-primary:hover { background-color: var(--color-brand-deep); }
+    .btn-ghost { @apply border border-line bg-white text-ink; }
+    .btn-ghost:hover { border-color: var(--color-brand); color: var(--color-brand); }
+    .btn-danger { @apply border border-bad bg-white text-bad; }
+    .btn-danger:hover { background-color: var(--color-bad-soft); }
+    .btn:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+    .btn-primary:disabled:hover { background-color: var(--color-brand); }
+
+    .link { @apply font-semibold text-brand no-underline; background: linear-gradient(currentColor, currentColor) 0 100% / 0 1.5px no-repeat; transition: background-size .2s ease; }
+    .link:hover { background-size: 100% 1.5px; }
+
+    .label { @apply mb-1 block text-sm font-semibold; }
+    .field { @apply block min-h-11 w-full rounded-lg border border-line bg-white px-3 py-2 text-base text-ink; }
+    .field:focus { border-color: var(--color-brand); }
+    .hint { @apply mt-1 text-sm text-muted; }
+    .err { @apply mt-1 text-sm font-medium text-bad; }
+
+    .badge { @apply inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold; }
+    .badge-wait { @apply bg-warn-soft text-warn; }
+    .badge-ok { @apply bg-brand-soft text-brand-deep; }
+    .badge-done { @apply bg-brand text-white; }
+    .badge-no { @apply bg-bad-soft text-bad; }
+
+    .tbl { @apply w-full min-w-[40rem] text-left text-sm; }
+    .tbl th { @apply border-b border-line px-3 py-2 text-xs font-semibold uppercase tracking-wide text-muted; }
+    .tbl td { @apply border-b border-line px-3 py-3 align-top; }
+    .tbl tr:last-child td { border-bottom: 0; }
+
+    .skip { @apply absolute left-4 z-50 rounded-lg bg-ink px-4 py-2 text-white; top: -4rem; }
+    .skip:focus { top: 1rem; }
+}
+
+/* Hero masuk satu kali saat halaman dibuka */
+@keyframes enter { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+[data-enter] > * { animation: enter .5s ease both; }
+[data-enter] > *:nth-child(2) { animation-delay: .07s; }
+[data-enter] > *:nth-child(3) { animation-delay: .14s; }
+[data-enter] > *:nth-child(4) { animation-delay: .21s; }
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}
